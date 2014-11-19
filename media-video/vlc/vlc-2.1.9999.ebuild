@@ -35,7 +35,7 @@ LICENSE="LGPL-2.1 GPL-2"
 SLOT="0/5-7" # vlc - vlccore
 
 if [ "${PV%9999}" = "${PV}" ] ; then
-	KEYWORDS="~amd64 ~arm ~ppc -sparc ~x86 ~amd64-fbsd ~x86-fbsd"
+	KEYWORDS="~amd64 ~arm ~ppc -sparc ~x86 ~x86-fbsd"
 else
 	KEYWORDS=""
 fi
