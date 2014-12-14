@@ -119,7 +119,7 @@ RDEPEND="
 		projectm? ( media-libs/libprojectm:0 media-fonts/dejavu:0 )
 		pulseaudio? ( >=media-sound/pulseaudio-0.9.22:0 )
 		qt4? ( >=dev-qt/qtgui-4.6.0:4 >=dev-qt/qtcore-4.6.0:4 )
-		rdp? ( net-misc/freerdp:0= )
+		rdp? ( <net-misc/freerdp-1.2:0= )
 		samba? ( || ( >=net-fs/samba-3.4.6:0[smbclient] >=net-fs/samba-4.0.0:0[client] ) )
 		schroedinger? ( >=media-libs/schroedinger-1.0.10:0 )
 		sdl? ( >=media-libs/libsdl-1.2.10:0
