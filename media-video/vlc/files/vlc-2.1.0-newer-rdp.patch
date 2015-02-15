@@ -1,29 +1,6 @@
 --- a/modules/access/rdp.c
 +++ b/modules/access/rdp.c
-@@ -41,6 +41,22 @@
- #include <freerdp/channels/channels.h>
- #include <freerdp/gdi/gdi.h>
- 
-+#if !defined(FREERDP_INTERFACE_VERSION)
-+# include <freerdp/version.h>
-+#endif
-+
-+#if !defined(FREERDP_VERSION_MAJOR) || \
-+    (defined(FREERDP_VERSION_MAJOR) && !(FREERDP_VERSION_MAJOR >= 1 && FREERDP_VERSION_MINOR >= 1 ))
-+# define SoftwareGdi sw_gdi
-+# define Fullscreen fullscreen
-+# define ServerHostname hostname
-+# define Username username
-+# define Password password
-+# define ServerPort port
-+# define EncryptionMethods encryption
-+# define ContextSize context_size
-+#endif
-+
- #include <errno.h>
- #ifdef HAVE_POLL
- # include <poll.h>
-@@ -198,15 +214,15 @@
+@@ -198,15 +198,15 @@
      demux_sys_t *p_sys = p_vlccontext->p_demux->p_sys;
  
      /* Configure connexion */
@@ -46,36 +23,20 @@
              var_InheritBool( p_vlccontext->p_demux, CFG_PREFIX "encrypt" );
  
      return true;
-@@ -217,15 +233,26 @@
+@@ -217,9 +217,9 @@
      vlcrdp_context_t * p_vlccontext = (vlcrdp_context_t *) p_instance->context;
  
      msg_Dbg( p_vlccontext->p_demux, "connected to desktop %dx%d (%d bpp)",
-+#if defined(FREERDP_VERSION_MAJOR)  && (FREERDP_VERSION_MAJOR >= 1 && FREERDP_VERSION_MINOR >= 1 )
-              p_instance->settings->width,
-              p_instance->settings->height,
-              p_instance->settings->color_depth );
--
-+#else
+-             p_instance->settings->width,
+-             p_instance->settings->height,
+-             p_instance->settings->color_depth );
 +             p_instance->settings->DesktopWidth,
 +             p_instance->settings->DesktopHeight,
 +             p_instance->settings->ColorDepth );
-+#endif
+ 
      p_instance->update->DesktopResize = desktopResizeHandler;
      p_instance->update->BeginPaint = beginPaintHandler;
-     p_instance->update->EndPaint = endPaintHandler;
- 
--    gdi_init( p_instance, CLRBUF_16BPP | CLRBUF_24BPP | CLRBUF_32BPP, NULL );
-+    gdi_init( p_instance,
-+                CLRBUF_16BPP |
-+#if defined(FREERDP_VERSION_MAJOR) && defined(FREERDP_VERSION_MINOR) && \
-+    ((FREERDP_VERSION_MAJOR < 1) || (FREERDP_VERSION_MAJOR == 1 && FREERDP_VERSION_MINOR < 2))
-+                CLRBUF_24BPP |
-+#endif
-+                CLRBUF_32BPP, NULL );
- 
-     desktopResizeHandler( p_instance->context );
-     return true;
-@@ -415,7 +442,7 @@
+@@ -415,7 +415,7 @@
      p_sys->p_instance->Authenticate = authenticateHandler;
  
      /* Set up context handlers and let it be allocated */
