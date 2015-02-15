@@ -65,7 +65,7 @@ RDEPEND="
 		alsa? ( >=media-libs/alsa-lib-1.0.24:0 )
 		avahi? ( >=net-dns/avahi-0.6:0[dbus] )
 		avcodec? (
-			!libav? ( media-video/ffmpeg:0= )
+			!libav? ( <media-video/ffmpeg-2.5:0= )
 			libav? ( media-video/libav:0= )
 		)
 		avformat? (
@@ -266,7 +266,7 @@ src_prepare() {
 	if use qt4; then
 		export QT_SELECT=qt4
 	fi
-	
+
 	epatch_user
 }
 
