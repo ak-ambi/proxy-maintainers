@@ -274,6 +274,8 @@ src_prepare() {
 	elif use qt5; then
 		export QT_SELECT=qt5
 	fi
+
+	epatch_user
 }
 
 src_configure() {

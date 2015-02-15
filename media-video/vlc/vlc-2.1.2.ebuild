@@ -249,6 +249,8 @@ src_prepare() {
 	if use qt4; then
 		export QT_SELECT=qt4
 	fi
+
+	epatch_user
 }
 
 src_configure() {
